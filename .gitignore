@@ -1,0 +1,10 @@
+"venv/" | Out-File .gitignore
+"__pycache__/" | Out-File -Append .gitignore
+"*.ipynb_checkpoints" | Out-File -Append .gitignore
+"*.DS_Store" | Out-File -Append .gitignore
+"*.log" | Out-File -Append .gitignore
+"models/*.pkl" | Out-File -Append .gitignore
+"models/*.h5" | Out-File -Append .gitignore
+"data/*.csv" | Out-File -Append .gitignore
+"/data/MachineLearningRating_v3.txt" | Out-File -Append .gitignore
+"!data/.gitkeep" | Out-File -Append .gitignore

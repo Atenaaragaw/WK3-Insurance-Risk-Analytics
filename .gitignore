@@ -8,3 +8,4 @@
 "data/*.csv" | Out-File -Append .gitignore
 "/data/MachineLearningRating_v3.txt" | Out-File -Append .gitignore
 "!data/.gitkeep" | Out-File -Append .gitignore
+models/

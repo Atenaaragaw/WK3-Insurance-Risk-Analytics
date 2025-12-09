@@ -116,3 +116,27 @@ plt.ylabel('Average Claim Amount (R)')
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 plt.show()
+# A Correlation Matrix (Heatmap)
+# Select numerical columns for correlation analysis
+numerical_cols = ['TotalPremium', 'TotalClaims', 'SumInsured', 'RegistrationYear']
+
+corr_matrix = df[numerical_cols].corr()
+
+# Visualize the correlation matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Correlation Matrix of Key Numerical Features')
+plt.show()
+# B Histogram
+# Histogram for TotalClaims (using log transformation due to high skew)
+plt.figure(figsize=(10, 5))
+sns.histplot(np.log1p(df['TotalClaims']), bins=50, kde=True)
+plt.title('Distribution of Log(1 + TotalClaims)')
+plt.xlabel('Log(1 + TotalClaims)')
+plt.show()
+
+# Box Plot for Premium segmented by Gender (to visualize variance and outliers)
+plt.figure(figsize=(10, 5))
+sns.boxplot(x='Gender', y='TotalPremium', data=df)
+plt.title('Total Premium Distribution by Gender')
+plt.show()

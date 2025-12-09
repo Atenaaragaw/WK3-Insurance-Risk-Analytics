@@ -2,9 +2,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os # <-- Added for file system operations
 
 # Set a style for better visualization
 sns.set_style('whitegrid')
+
+# --- MLOps: Create visuals directory ---
+VISUALS_DIR = 'visuals'
+if not os.path.exists(VISUALS_DIR):
+    os.makedirs(VISUALS_DIR)
+    print(f"Created directory: {VISUALS_DIR}/")
+
 
 # Load the data using the pipe separator
 DATA_PATH = 'data/MachineLearningRating_v3.txt'
@@ -71,7 +79,7 @@ print("\nLoss Ratio by Gender:")
 print(gender_lr[['LossRatio']])
 
 
-# --- 4. Visualization (3 Creative Plots) ---
+# --- 4. Visualization (All Required Plots) ---
 
 # Creative Plot 1: Loss Ratio by Province 
 plt.figure(figsize=(10, 6))
@@ -81,6 +89,7 @@ plt.xlabel('Province')
 plt.ylabel('Loss Ratio (Risk Measure)')
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
+plt.savefig(os.path.join(VISUALS_DIR, 'lr_by_province.png')) # <-- Saved Plot
 plt.show()
 
 # Creative Plot 2: Temporal Trend 
@@ -98,6 +107,7 @@ sns.lineplot(x=monthly_trends.index, y='LossRatio', data=monthly_trends, marker=
 plt.title('Temporal Trend of Portfolio Loss Ratio (Feb 2014 - Aug 2015)', fontsize=14)
 plt.xticks(rotation=45)
 plt.grid(axis='y')
+plt.savefig(os.path.join(VISUALS_DIR, 'temporal_loss_ratio.png')) # <-- Saved Plot
 plt.show()
 
 # Creative Plot 3: Top 5 Vehicle Makes by Average Claim Severity
@@ -115,28 +125,34 @@ plt.xlabel('Vehicle Make')
 plt.ylabel('Average Claim Amount (R)')
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
+plt.savefig(os.path.join(VISUALS_DIR, 'top_makes_severity.png')) # <-- Saved Plot
 plt.show()
-# A Correlation Matrix (Heatmap)
-# Select numerical columns for correlation analysis
-numerical_cols = ['TotalPremium', 'TotalClaims', 'SumInsured', 'RegistrationYear']
 
+
+# --- Missing Standard EDA Elements (Required by Feedback) ---
+
+# A Correlation Matrix (Heatmap)
+numerical_cols = ['TotalPremium', 'TotalClaims', 'SumInsured', 'RegistrationYear']
 corr_matrix = df[numerical_cols].corr()
 
-# Visualize the correlation matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Matrix of Key Numerical Features')
+plt.savefig(os.path.join(VISUALS_DIR, 'correlation_heatmap.png')) # <-- Saved Plot
 plt.show()
-# B Histogram
-# Histogram for TotalClaims (using log transformation due to high skew)
+
+
+# B Histogram for TotalClaims
 plt.figure(figsize=(10, 5))
 sns.histplot(np.log1p(df['TotalClaims']), bins=50, kde=True)
 plt.title('Distribution of Log(1 + TotalClaims)')
 plt.xlabel('Log(1 + TotalClaims)')
+plt.savefig(os.path.join(VISUALS_DIR, 'claims_log_histogram.png')) # <-- Saved Plot
 plt.show()
 
-# Box Plot for Premium segmented by Gender (to visualize variance and outliers)
+# C Box Plot for TotalPremium by Gender
 plt.figure(figsize=(10, 5))
 sns.boxplot(x='Gender', y='TotalPremium', data=df)
 plt.title('Total Premium Distribution by Gender')
+plt.savefig(os.path.join(VISUALS_DIR, 'premium_by_gender_boxplot.png')) # <-- Saved Plot
 plt.show()
